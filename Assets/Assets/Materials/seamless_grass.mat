@@ -53,7 +53,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Cull: 0
-    - _Metallic: 1
+    - _Metallic: 0
     - _Smoothness: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
