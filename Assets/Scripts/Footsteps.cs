@@ -1,19 +1,36 @@
 using UnityEngine;
 
-public class FootstepScript : MonoBehaviour
+[RequireComponent(typeof(AudioSource))]
+public class SimpleFootsteps : MonoBehaviour
 {
-    public GameObject footstep;
+    public CharacterController controller;
+    private AudioSource footstepAudio;
+    public float normalSpeed = 1f;
+    public float runSpeed = 1.5f;
 
     void Start()
     {
-        footstep.SetActive(false);
+        footstepAudio = GetComponent<AudioSource>();
     }
 
     void Update()
     {
-        // Detect if player is pressing any movement key using Unity’s axis system
         bool isMoving = Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0;
 
-        footstep.SetActive(isMoving);
+        if (!controller.isGrounded)
+        {
+            isMoving = false;
+        }
+
+        footstepAudio.pitch = Input.GetKey(KeyCode.LeftShift) ? runSpeed : normalSpeed;
+
+        if (isMoving && !footstepAudio.isPlaying)
+        {
+            footstepAudio.Play();
+        }
+        else if (!isMoving && footstepAudio.isPlaying)
+        {
+            footstepAudio.Stop();
+        }
     }
 }
