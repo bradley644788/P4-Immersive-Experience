@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -1447,7 +1447,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7266dbbdb1a35054dbd50b3a31c4083e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameLimiter
-  targetFPS: 60
 --- !u!4 &2035147143
 Transform:
   m_ObjectHideFlags: 0

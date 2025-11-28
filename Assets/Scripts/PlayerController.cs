@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private float rotationX = 0;
     private CharacterController characterController;
 
-    private bool canMove = true;
+    public bool canMove = true;
 
     void Start()
     {
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
     }
-
+    
     public void DisableControl()
     {
         canMove = false;
