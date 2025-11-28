@@ -62,4 +62,9 @@ public class PlayerController : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
     }
+
+    public void DisableControl()
+    {
+        canMove = false;
+    }
 }

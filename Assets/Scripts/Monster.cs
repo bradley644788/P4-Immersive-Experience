@@ -40,4 +40,13 @@ public class Monster : MonoBehaviour
             agent.SetDestination(hit.position);
         }
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            FindFirstObjectByType<GameOverMenu>().ShowGameOver();
+            FindFirstObjectByType<PlayerController>().DisableControl();
+        }
+    }
 }
