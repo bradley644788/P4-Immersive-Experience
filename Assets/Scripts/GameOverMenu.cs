@@ -34,13 +34,12 @@ public class GameOverMenu : MonoBehaviour
         while (t < 1f)
         {
             t += Time.unscaledDeltaTime * lookSpeed;
-
-            float easedT = Mathf.SmoothStep(0f, 1f, t);
-            playerCamera.transform.rotation = Quaternion.Slerp(startRotation, targetRotation, easedT);
-
+            playerCamera.transform.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
             yield return null;
         }
+        playerCamera.transform.rotation = targetRotation;
     }
+
 
 
     private IEnumerator FreezeTimeNextFrame()
