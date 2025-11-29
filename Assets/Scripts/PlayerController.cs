@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 moveDirection = Vector3.zero;
     private float rotationX = 0;
-    private CharacterController characterController;
+    public CharacterController characterController;
 
     void Start()
     {
@@ -127,7 +127,7 @@ public class PlayerController : MonoBehaviour
              Input.GetAxisRaw("Vertical") != 0) &&
             characterController.isGrounded;
 
-        if (footstepAudio)
+        if (footstepAudio) 
         {
             footstepAudio.pitch = isRunning ? footstepRunPitch : footstepWalkPitch;
 

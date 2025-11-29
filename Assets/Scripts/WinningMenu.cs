@@ -9,6 +9,10 @@ public class WinningMenu : MonoBehaviour
     public RawImage fadePanel;
     public float fadeDuration = 2f;
 
+    public Transform targetPoint;
+    public float moveSpeed = 5f;
+    public float rotateSpeed = 180f; // degrees per second
+
     private bool triggered = false;
 
     private void OnTriggerEnter(Collider other)
@@ -23,44 +27,64 @@ public class WinningMenu : MonoBehaviour
             Cursor.visible = true;
 
             PlayerController pc = other.GetComponent<PlayerController>();
-            if (pc != null) pc.canMove = false;
+            if (pc != null) pc.DisableControl();
 
-            StartCoroutine(FadeOutAudio());
-            StartCoroutine(FadeScreen());
-            Time.timeScale = 0f;
+            StartCoroutine(WinningSequence(pc));
         }
     }
 
-    private IEnumerator FadeOutAudio()
+    private IEnumerator WinningSequence(PlayerController player)
     {
-        float startVolume = AudioListener.volume;
-        float t = 0f;
+        CharacterController cc = player.characterController;
+        Transform t = player.transform;
 
-        while (t < fadeDuration)
+        float elapsed = 0f;
+
+        while (elapsed < fadeDuration)
         {
-            AudioListener.volume = Mathf.Lerp(startVolume, 0f, t / fadeDuration);
-            t += Time.unscaledDeltaTime;
+            elapsed += Time.unscaledDeltaTime;
+
+            // Move toward target
+            Vector3 dir = targetPoint.position - t.position;
+            dir.y = 0; // keep horizontal
+            if (dir.magnitude > 0.01f)
+                cc.Move(dir.normalized * Mathf.Min(moveSpeed * Time.unscaledDeltaTime, dir.magnitude));
+
+            // Rotate toward target
+            if (dir.magnitude > 0.01f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(dir);
+                t.rotation = Quaternion.RotateTowards(t.rotation, targetRot, rotateSpeed * Time.unscaledDeltaTime);
+            }
+
+            // Fade screen/audio
+            float tNorm = Mathf.Clamp01(elapsed / fadeDuration);
+            AudioListener.volume = Mathf.Lerp(1f, 0f, tNorm);
+            if (fadePanel)
+            {
+                Color c = fadePanel.color;
+                c.a = tNorm;
+                fadePanel.color = c;
+            }
+
             yield return null;
+        }
+
+        // Snap to target
+        t.position = targetPoint.position;
+
+        // Keep original fade panel color but alpha = 1
+        if (fadePanel)
+        {
+            Color c = fadePanel.color;
+            c.a = 1f;
+            fadePanel.color = c;
         }
 
         AudioListener.volume = 0f;
-    }
 
-    private IEnumerator FadeScreen()
-    {
-        Color c = fadePanel.color;
-        float t = 0f;
-
-        while (t < fadeDuration)
-        {
-            c.a = Mathf.Lerp(0f, 1f, t / fadeDuration);
-            fadePanel.color = c;
-            t += Time.unscaledDeltaTime;
-            yield return null;
-        }
-
-        c.a = 1f;
-        fadePanel.color = c;
+        // Stop time
+        Time.timeScale = 0f;
     }
 
     public void Retry()
