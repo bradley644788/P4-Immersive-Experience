@@ -22,13 +22,14 @@ public class PlayerController : MonoBehaviour
     public float maxStamina = 5f;
     public float staminaDrainRate = 1f;
     public float staminaRegenRate = 1f;
+    private bool isExhausted = false;
     public AudioSource staminaEmptySound;
 
     private float stamina;
 
     private Vector3 moveDirection = Vector3.zero;
     private float rotationX = 0;
-    public CharacterController characterController;
+    private CharacterController characterController;
 
     void Start()
     {
@@ -45,15 +46,27 @@ public class PlayerController : MonoBehaviour
         bool wantsToRun = Input.GetKey(KeyCode.LeftShift) && canMove;
         bool isMovingInput = Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0;
 
-        // drain stamina if running and moving
-        if (wantsToRun && isMovingInput && stamina > 0f)
+        // drain stamina if running normally (and not exhausted)
+        if (!isExhausted && wantsToRun && isMovingInput && stamina > 0f)
         {
             stamina -= staminaDrainRate * Time.deltaTime;
             if (stamina < 0f)
                 stamina = 0f;
         }
 
-        // regenerate stamina if not running
+        // if stamina reaches 0, become exhausted
+        if (stamina <= 0f && !isExhausted)
+        {
+            isExhausted = true; 
+
+            if (staminaEmptySound && !staminaEmptySound.isPlaying)
+            {
+                staminaEmptySound.loop = true;
+                staminaEmptySound.Play();
+            }
+        }
+
+        // regenerate stamina
         if (!(wantsToRun && isMovingInput))
         {
             stamina += staminaRegenRate * Time.deltaTime;
@@ -61,25 +74,20 @@ public class PlayerController : MonoBehaviour
                 stamina = maxStamina;
         }
 
-        // play sound if stamina is drained
-        if (stamina <= 0f)
-        {
-            if (staminaEmptySound && !staminaEmptySound.isPlaying)
-            {
-                staminaEmptySound.loop = true;
-                staminaEmptySound.Play();
-            }
-        }
-        else if (stamina > 2f) // stop looping once stamina regenerates above this threshold
+        // breathing sound logic
+        if (stamina > 2f)
         {
             if (staminaEmptySound && staminaEmptySound.isPlaying)
             {
                 staminaEmptySound.loop = false;
             }
+
+            // no longer exhausted, can now run
+            isExhausted = false;
         }
 
-        // running only allowed if stamina > 0
-        bool isRunning = wantsToRun && stamina > 0f;
+        // running allowed only if stamina > 0 and not exhausted
+        bool isRunning = wantsToRun && !isExhausted && stamina > 0f;
 
         // Movement input
         Vector3 forward = transform.TransformDirection(Vector3.forward);
@@ -90,7 +98,6 @@ public class PlayerController : MonoBehaviour
 
         float movementDirectionY = moveDirection.y;
 
-        // Horizontal movement
         Vector3 horizontalMove = forward * inputX + right * inputY;
 
         if (horizontalMove.magnitude > 1f)
@@ -100,7 +107,7 @@ public class PlayerController : MonoBehaviour
 
         moveDirection = new Vector3(horizontalMove.x, movementDirectionY, horizontalMove.z);
 
-        // Jump & gravity
+        // Jump + Gravity
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
             moveDirection.y = jumpPower;
         else
@@ -127,7 +134,7 @@ public class PlayerController : MonoBehaviour
              Input.GetAxisRaw("Vertical") != 0) &&
             characterController.isGrounded;
 
-        if (footstepAudio) 
+        if (footstepAudio)
         {
             footstepAudio.pitch = isRunning ? footstepRunPitch : footstepWalkPitch;
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Monster : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Monster : MonoBehaviour
     public AudioSource sound;
     public float detectionRange = 10f;
     public float wanderRadius = 20f;
+    public RawImage redOverlay;
 
     void Start()
     {
@@ -31,6 +33,14 @@ public class Monster : MonoBehaviour
 
         sound.volume = Mathf.Clamp01(1f - (dist / detectionRange));
         if (!sound.isPlaying) sound.Play();
+
+        if (redOverlay)
+        {
+            float alpha = Mathf.Clamp01(1f - (dist / detectionRange)) * .33f;
+            Color c = redOverlay.color;
+            c.a = alpha;
+            redOverlay.color = c;
+        }
     }
 
     void Wander()
