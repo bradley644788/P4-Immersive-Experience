@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // breathing sound logic
-        if (stamina > 2f)
+        if (stamina > 2f || !canMove)
         {
             if (staminaEmptySound && staminaEmptySound.isPlaying)
             {
