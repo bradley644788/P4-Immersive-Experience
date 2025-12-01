@@ -6826,7 +6826,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1150905160
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7169,9 +7169,6 @@ MonoBehaviour:
   sound: {fileID: 105365496}
   detectionRange: 20
   wanderRadius: 100
-  redOverlay: {fileID: 1150905161}
-  torchLight: {fileID: 157215227}
-  torchLightDefault: 400
 --- !u!1 &1164583287
 GameObject:
   m_ObjectHideFlags: 0
