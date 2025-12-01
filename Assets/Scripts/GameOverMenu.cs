@@ -9,7 +9,7 @@ public class GameOverMenu : MonoBehaviour
     public Transform monster;
     public float headOffsetY = 1.5f;
     public float lookSpeed = 2f;
-    public Light torchLight;  
+    public Light torchLight;
     private float originalTorchIntensity;  
 
     public void ShowGameOver()  
