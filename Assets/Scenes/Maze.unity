@@ -792,7 +792,7 @@ Transform:
   m_GameObject: {fileID: 101213915}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 135, y: 3.48138, z: -135}
+  m_LocalPosition: {x: 135, y: 3.5, z: -135}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -853,7 +853,7 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
-  DopplerLevel: 0.75
+  DopplerLevel: 0.7
   MinDistance: 0
   MaxDistance: 20
   Pan2D: 0
@@ -2728,6 +2728,7 @@ GameObject:
   - component: {fileID: 576374808}
   - component: {fileID: 576374807}
   - component: {fileID: 576374806}
+  - component: {fileID: 576374810}
   m_Layer: 0
   m_Name: Maze Ceiling
   m_TagString: Untagged
@@ -2828,6 +2829,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1069538319}
   m_LocalEulerAnglesHint: {x: -90, y: -180, z: 0}
+--- !u!114 &576374810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576374805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &605820055
 GameObject:
   m_ObjectHideFlags: 0
@@ -4349,7 +4370,7 @@ Transform:
   m_GameObject: {fileID: 870064970}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 90.000015, y: -1.48138, z: 90}
+  m_LocalPosition: {x: 90.000015, y: -1.42, z: 90}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6974,15 +6995,15 @@ NavMeshAgent:
   m_GameObject: {fileID: 1157595370}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.25
   m_Speed: 6.5
   m_Acceleration: 32
   avoidancePriority: 50
   m_AngularSpeed: 360
   m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
+  m_AutoTraverseOffMeshLink: 0
+  m_AutoBraking: 0
+  m_AutoRepath: 0
   m_Height: 2
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
@@ -7074,7 +7095,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157595370}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -45, y: 2, z: -45}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
@@ -7082,7 +7103,7 @@ Transform:
   - {fileID: 105365497}
   - {fileID: 278363258}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &1157595377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7099,6 +7120,7 @@ MonoBehaviour:
   sound: {fileID: 105365498}
   detectionRange: 20
   wanderRadius: 100
+  wanderMinDistance: 50
   dangerFog: {r: 0.08, g: 0, b: 0, a: 1}
   dangerAmbient: {r: 0.03, g: 0, b: 0, a: 1}
   flashlight: {fileID: 157215227}
@@ -9224,7 +9246,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: f4ab23c74b6858b478f741af8b59ebfe, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.7
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -10899,6 +10921,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1818125111}
+  - component: {fileID: 1818125112}
   m_Layer: 0
   m_Name: Inner Walls
   m_TagString: Untagged
@@ -10963,6 +10986,26 @@ Transform:
   - {fileID: 1914251677}
   m_Father: {fileID: 1069538319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1818125112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818125110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &1845132997
 GameObject:
   m_ObjectHideFlags: 0
@@ -12461,6 +12504,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2073139290}
+  - component: {fileID: 2073139291}
   m_Layer: 0
   m_Name: Outer Walls
   m_TagString: Untagged
@@ -12487,6 +12531,26 @@ Transform:
   - {fileID: 1510257759}
   m_Father: {fileID: 1069538319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2073139291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073139289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &2073967426
 GameObject:
   m_ObjectHideFlags: 0
@@ -12907,7 +12971,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 76c5fb7d0ff16c44eb663c877849849b, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: a662d00c9ff054e48b6aa3b6f361e0f3, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &2093608999
 GameObject:

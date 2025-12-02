@@ -8,8 +8,9 @@ public class Monster : MonoBehaviour
     private NavMeshAgent agent;
 
     public AudioSource sound;
-    public float detectionRange = 10f;
-    public float wanderRadius = 20f;
+    public float detectionRange = 20f;
+    public float wanderRadius = 100f;
+    public float wanderMinDistance = 50f;
     private Color normalFog;
     public Color dangerFog;
     private Color normalAmbient;
@@ -17,6 +18,7 @@ public class Monster : MonoBehaviour
 
     public Light flashlight;
     private float flashlightDefault;
+
 
     public WinningMenu winningMenu;
 
@@ -30,10 +32,12 @@ public class Monster : MonoBehaviour
         flashlightDefault = flashlight.intensity;
     }
 
+
     void Update()
     {
         float dist = Vector3.Distance(transform.position, player.position);
 
+        // Player detection
         if (dist < detectionRange)
         {
             agent.SetDestination(player.position);
@@ -43,26 +47,31 @@ public class Monster : MonoBehaviour
             RenderSettings.ambientLight = Color.Lerp(normalAmbient, dangerAmbient, closeness);
             flashlight.intensity = Mathf.Lerp(flashlightDefault, 15f, closeness);
         }
-        else if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        else
         {
-            Wander();
+            // Wandering
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            {
+                Wander();
+            }
+
+            // Reset environment
             RenderSettings.fogColor = normalFog;
             RenderSettings.ambientLight = normalAmbient;
             flashlight.intensity = flashlightDefault;
-        }
-
-        if (!FindFirstObjectByType<PlayerController>().canMove)
-        {
-            RenderSettings.fogColor = Color.black;
-            RenderSettings.ambientLight = Color.black;
         }
     }
 
     void Wander()
     {
-        if (NavMesh.SamplePosition(transform.position + Random.insideUnitSphere * wanderRadius, out NavMeshHit hit, wanderRadius, NavMesh.AllAreas))
+        Vector3 randomDirection = Random.insideUnitSphere * wanderRadius + transform.position;
+
+        if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, wanderRadius, NavMesh.AllAreas))
         {
-            agent.SetDestination(hit.position);
+            if (Vector3.Distance(transform.position, hit.position) >= wanderMinDistance)
+            {
+                agent.SetDestination(hit.position);
+            }
         }
     }
 
@@ -74,6 +83,25 @@ public class Monster : MonoBehaviour
             
             FindFirstObjectByType<GameOverMenu>().ShowGameOver();
             FindFirstObjectByType<PlayerController>().DisableControl();
+            
+            if (!FindFirstObjectByType<PlayerController>().canMove)
+            {
+                RenderSettings.fogColor = Color.black;
+                RenderSettings.ambientLight = Color.black;
+
+                // force monster to face the player
+                agent.updateRotation = false; // stop NavMeshAgent from rotating her
+
+                Vector3 targetPos = player.position;
+                targetPos.y = transform.position.y; // keep rotation flat
+                transform.LookAt(targetPos);
+                
+                return; // stop normal ai logic
+            }
+            else
+            {
+                agent.updateRotation = true; // normal rotation when alive
+            }
         }
     }
 }
