@@ -19,7 +19,6 @@ public class Monster : MonoBehaviour
     public Light flashlight;
     private float flashlightDefault;
 
-
     public WinningMenu winningMenu;
 
     void Start()
@@ -30,8 +29,9 @@ public class Monster : MonoBehaviour
         normalFog = RenderSettings.fogColor;
         normalAmbient = RenderSettings.ambientLight;
         flashlightDefault = flashlight.intensity;
-    }
 
+        WinningMenu.hasWon = false;
+    }
 
     void Update()
     {
