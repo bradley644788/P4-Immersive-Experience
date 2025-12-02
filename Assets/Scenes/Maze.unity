@@ -2029,6 +2029,7 @@ MonoBehaviour:
   winMenu: {fileID: 0}
   fadePanel: {fileID: 0}
   fadeDuration: 2
+  triggered: 0
 --- !u!114 &316709460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3321,6 +3322,7 @@ MonoBehaviour:
   winMenu: {fileID: 316709458}
   fadePanel: {fileID: 1424806271}
   fadeDuration: 3
+  triggered: 0
 --- !u!114 &684317003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7100,6 +7102,7 @@ MonoBehaviour:
   dangerFog: {r: 0.08, g: 0, b: 0, a: 1}
   dangerAmbient: {r: 0.03, g: 0, b: 0, a: 1}
   flashlight: {fileID: 157215227}
+  winningMenu: {fileID: 316709459}
 --- !u!1 &1164583287
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,8 @@ public class WinningMenu : MonoBehaviour
     public RawImage fadePanel;
     public float fadeDuration = 2f;
 
-    private bool triggered = false;
+    public bool triggered = false;
+    public static bool hasWon = false;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -17,6 +18,7 @@ public class WinningMenu : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             triggered = true;
+            WinningMenu.hasWon = true;
 
             winMenu.SetActive(true);
 

@@ -18,6 +18,8 @@ public class Monster : MonoBehaviour
     public Light flashlight;
     private float flashlightDefault;
 
+    public WinningMenu winningMenu;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -68,6 +70,8 @@ public class Monster : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            if (WinningMenu.hasWon) return;
+            
             FindFirstObjectByType<GameOverMenu>().ShowGameOver();
             FindFirstObjectByType<PlayerController>().DisableControl();
         }
