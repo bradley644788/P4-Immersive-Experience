@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Rendering;
+using System.Collections;
 
 public class FrameLimiter : MonoBehaviour
 {
@@ -10,14 +12,23 @@ public class FrameLimiter : MonoBehaviour
         targetFPS = Mathf.RoundToInt((float)ratio.value);
         QualitySettings.vSyncCount = 1;
         Application.targetFrameRate = targetFPS;
+        // OnDemandRendering.renderFrameInterval = 2;
+        
+        StartCoroutine(FrameLimitCoroutine());
     }
 
-    void Update()
+    private IEnumerator FrameLimitCoroutine()
     {
         float frameTime = 1f / targetFPS;
-        if (Time.unscaledDeltaTime < frameTime)
+
+        while (true)
         {
-            int sleep = Mathf.RoundToInt((frameTime - Time.unscaledDeltaTime) * 1000f);
+            float startTime = Time.realtimeSinceStartup;
+
+            yield return null;
+
+            float delta = Time.realtimeSinceStartup - startTime;
+            int sleep = Mathf.RoundToInt((frameTime - delta) * 1000f);
             if (sleep > 0)
             {
                 System.Threading.Thread.Sleep(sleep);
