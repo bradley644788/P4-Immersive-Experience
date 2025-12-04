@@ -89,18 +89,16 @@ public class Monster : MonoBehaviour
                 RenderSettings.fogColor = Color.black;
                 RenderSettings.ambientLight = Color.black;
 
-                // force monster to face the player
-                agent.updateRotation = false; // stop NavMeshAgent from rotating her
-
+                agent.updateRotation = false; 
                 Vector3 targetPos = player.position;
-                targetPos.y = transform.position.y; // keep rotation flat
+                targetPos.y = transform.position.y;
                 transform.LookAt(targetPos);
                 
-                return; // stop normal ai logic
+                return;
             }
             else
             {
-                agent.updateRotation = true; // normal rotation when alive
+                agent.updateRotation = true;
             }
         }
     }
