@@ -54,11 +54,9 @@ public class Monster : MonoBehaviour
             {
                 Wander();
             }
-
-            // Reset environment
-            RenderSettings.fogColor = normalFog;
-            RenderSettings.ambientLight = normalAmbient;
-            flashlight.intensity = flashlightDefault;
+            // RenderSettings.fogColor = normalFog;
+            // RenderSettings.ambientLight = normalAmbient;
+            // flashlight.intensity = flashlightDefault;
         }
     }
 
@@ -82,7 +80,7 @@ public class Monster : MonoBehaviour
             if (WinningMenu.hasWon) return;
             
             FindFirstObjectByType<GameOverMenu>().ShowGameOver();
-            FindFirstObjectByType<PlayerController>().DisableControl();
+            FindFirstObjectByType<PlayerController>().DisableControl(); 
             
             if (!FindFirstObjectByType<PlayerController>().canMove)
             {
